@@ -1,7 +1,6 @@
 node_modules/
 uploads/
 .env
-*.json
 
 logs/
 *.log
