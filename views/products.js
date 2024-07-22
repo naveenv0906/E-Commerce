@@ -1,79 +1,91 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Function to fetch products with pagination
-  async function fetchProducts(page = 1, limit = 5) {
-      try {
-          console.log(`Fetching products for page ${page}...`);
-          const response = await fetch(`http://localhost:3000/products?page=${page}&limit=${limit}`);
-          
-          // Check if the response is ok before parsing
-          if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-          }
+async function fetchProducts(page, limit) {
+  try {
+    console.log(`Fetching products for page ${page}...`);
+    const response = await fetch(`http://localhost:3000/products?page=${page}&limit=${limit}`);
+    const data = await response.json();
+    console.log('Response data:', data);
 
-          const data = await response.json();
-          console.log('Response data:', data);
-
-          // Ensure the data structure matches expected format
-          if (data && data.products && Array.isArray(data.products)) {
-              displayProducts(data.products);
-              updatePagination(data.currentPage, data.totalPages);
-          } else {
-              throw new Error('Unexpected data format');
-          }
-      } catch (error) {
-          console.error('Error fetching products:', error);
-          alert('An error occurred while fetching products. Please try again.');
-      }
+    if (response.ok) {
+      displayProducts(data.products);
+      updatePagination(data.currentPage, data.totalPages);
+    } else {
+      throw new Error('Failed to fetch products');
+    }
+  } catch (error) {
+    console.error('Error fetching products:', error);
   }
+}
 
-  // Function to display products in the UI
-  function displayProducts(products) {
-      const productsList = document.getElementById('products');
-      productsList.innerHTML = '';
+function displayProducts(products) {
+  const productsList = document.getElementById('products');
+  productsList.innerHTML = '';
 
-      products.forEach(product => {
-          const li = document.createElement('li');
-          li.classList.add('d-flex', 'align-items-start');
+  products.forEach(product => {
+    const col = document.createElement('div');
+    col.classList.add('col-md-4', 'mb-4'); // Adjust column width based on screen size
 
-          li.innerHTML = `
-              <div class="product-image">
-                  <img src="${product.image}" alt="${product.name}" style="max-width: 150px; height: auto; border-radius: 8px;">
-              </div>
-              <div class="product-details">
-                  <div class="product-name"><strong>${product.name}</strong></div>
-                  <div class="product-price">$${product.price}</div>
-                  <div class="product-description">${product.description}</div>
-              </div>
-          `;
+    const card = document.createElement('div');
+    card.classList.add('card', 'h-100'); // Card component for consistent styling
 
-          productsList.appendChild(li);
-      });
-  }
+    card.innerHTML = `
+      <img src="${product.image}" class="card-img-top" alt="${product.name}">
+      <div class="card-body">
+        <h5 class="card-title">${product.name}</h5>
+        <p class="card-text">$${product.price}</p>
+        <p class="card-text">${product.description}</p>
+        <button class="btn btn-danger btn-sm delete-btn" data-id="${product._id}">Delete</button>
+      </div>
+    `;
 
-  // Function to update pagination controls
-  function updatePagination(currentPage, totalPages) {
-      const pageInfo = document.getElementById('page-info');
-      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-      document.getElementById('prev').disabled = currentPage === 1;
-      document.getElementById('next').disabled = currentPage === totalPages;
-  }
-
-  // Event listeners for pagination buttons
-  document.getElementById('prev').addEventListener('click', () => {
-      const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
-      if (currentPage > 1) {
-          fetchProducts(currentPage - 1);
-      }
+    col.appendChild(card);
+    productsList.appendChild(col);
   });
 
-  document.getElementById('next').addEventListener('click', () => {
-      const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
-      const totalPages = parseInt(document.getElementById('page-info').textContent.split(' ')[3], 10);
-      if (currentPage < totalPages) {
-          fetchProducts(currentPage + 1);
-      }
+  // Add event listeners to delete buttons
+  document.querySelectorAll('.delete-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const productId = e.target.getAttribute('data-id');
+      deleteProduct(productId);
+    });
   });
+}
 
-  // Initial fetch to load products when the page loads
-  fetchProducts();
+async function deleteProduct(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/products/${id}`, {
+      method: 'DELETE'
+    });
+
+    if (response.ok) {
+      console.log('Product deleted successfully');
+      fetchProducts();  // Refresh the product list
+    } else {
+      throw new Error('Failed to delete product');
+    }
+  } catch (error) {
+    console.error('Error deleting product:', error);
+  }
+}
+
+function updatePagination(currentPage, totalPages) {
+  document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+  document.getElementById('prev').disabled = currentPage === 1;
+  document.getElementById('next').disabled = currentPage === totalPages;
+}
+
+document.getElementById('prev').addEventListener('click', () => {
+  const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
+  if (currentPage > 1) {
+    fetchProducts(currentPage - 1);
+  }
 });
+
+document.getElementById('next').addEventListener('click', () => {
+  const currentPage = parseInt(document.getElementById('page-info').textContent.split(' ')[1], 10);
+  const totalPages = parseInt(document.getElementById('page-info').textContent.split(' ')[3], 10);
+  if (currentPage < totalPages) {
+    fetchProducts(currentPage + 1);
+  }
+});
+
+fetchProducts();

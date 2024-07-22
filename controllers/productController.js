@@ -43,7 +43,7 @@ exports.createProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.limit) || 6;
     const skip = (page - 1) * limit;
 
     const products = await Product.find().skip(skip).limit(limit);
