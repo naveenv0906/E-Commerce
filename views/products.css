@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+#product-list {
+  margin-bottom: 20px;
+}
+
+#products li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+#products li:hover {
+  background-color: #e9ecef;
+}
+
+#pagination {
+  margin-top: 20px;
+}
+
+#page-info {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
