@@ -6,7 +6,7 @@
     <title>Product List</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="/products.css"> <!-- Correct path -->
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -18,10 +18,13 @@
             <div id="products" class="row">
                 <!-- Products will be dynamically inserted here -->
             </div>
+            <div id="error-message" class="alert alert-danger d-none" role="alert">
+                Error fetching products. Please try again later.
+            </div>
             <div id="pagination" class="d-flex justify-content-between align-items-center mt-4">
-                <button id="prev" class="btn btn-secondary">Previous</button>
+                <button id="prev" class="btn btn-secondary" disabled>Previous</button>
                 <span id="page-info"></span>
-                <button id="next" class="btn btn-secondary">Next</button>
+                <button id="next" class="btn btn-secondary" disabled>Next</button>
             </div>
         </section>
     </main>
@@ -30,6 +33,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="products.js"></script>
+    <script src="/products.js"></script> <!-- Correct path -->
 </body>
 </html>

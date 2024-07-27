@@ -1,18 +1,19 @@
-async function fetchProducts(page, limit) {
+async function fetchProducts(page = 1, limit = 3) {
   try {
     console.log(`Fetching products for page ${page}...`);
-    const response = await fetch(`http://localhost:3000/products?page=${page}&limit=${limit}`);
-    const data = await response.json();
-    console.log('Response data:', data);
-
-    if (response.ok) {
-      displayProducts(data.products);
-      updatePagination(data.currentPage, data.totalPages);
-    } else {
+    const response = await fetch(`/api/products?page=${page}&limit=${limit}`);
+    
+    if (!response.ok) {
       throw new Error('Failed to fetch products');
     }
+
+    const data = await response.json();
+    console.log('Response data:', data);
+    displayProducts(data.products);
+    updatePagination(data.currentPage, data.totalPages);
   } catch (error) {
     console.error('Error fetching products:', error);
+    document.getElementById('error-message').classList.remove('d-none');
   }
 }
 
@@ -22,10 +23,10 @@ function displayProducts(products) {
 
   products.forEach(product => {
     const col = document.createElement('div');
-    col.classList.add('col-md-4', 'mb-4'); // Adjust column width based on screen size
+    col.classList.add('col-md-4');
 
     const card = document.createElement('div');
-    card.classList.add('card', 'h-100'); // Card component for consistent styling
+    card.classList.add('card', 'h-100');
 
     card.innerHTML = `
       <img src="${product.image}" class="card-img-top" alt="${product.name}">
@@ -52,7 +53,7 @@ function displayProducts(products) {
 
 async function deleteProduct(id) {
   try {
-    const response = await fetch(`http://localhost:3000/products/${id}`, {
+    const response = await fetch(`/api/products/${id}`, {
       method: 'DELETE'
     });
 
@@ -88,4 +89,5 @@ document.getElementById('next').addEventListener('click', () => {
   }
 });
 
+// Initial fetch
 fetchProducts();
