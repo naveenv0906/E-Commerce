@@ -23,7 +23,7 @@ exports.login = async (req, res) => {
       return res.status(401).send('Invalid password.');
     }
     req.session.userId = user._id;
-    res.redirect('/dashboard');
+    res.redirect('/add-products');
   } catch (err) {
     res.status(500).send('Error logging in.');
   }

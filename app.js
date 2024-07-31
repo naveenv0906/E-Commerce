@@ -50,7 +50,7 @@ app.get('/register', (req, res) => {
 });
 
 // Protect these routes with authentication middleware
-app.get('/dashboard', isAuthenticated, (req, res) => {
+app.get('/add-products', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
