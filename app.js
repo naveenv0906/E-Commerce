@@ -14,7 +14,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
 app.use(bodyParser.json());
@@ -34,11 +34,15 @@ app.use('/auth', authRoutes);
 
 // Authentication middleware
 const isAuthenticated = (req, res, next) => {
+  // console.log('Session User ID:', req.session.userId);
   if (req.session.userId) {
     return next();
   }
   res.redirect('/login');
 };
+
+
+app.use('/api/products', isAuthenticated, productRoutes);
 
 // Serve HTML pages with authentication check
 app.get('/login', (req, res) => {
@@ -58,15 +62,16 @@ app.get('/products', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'products.html'));
 });
 
-// Apply authentication middleware on product routes
-app.use('/api/products', isAuthenticated, productRoutes);
-
 app.get('/*',(req, res) => {
   res.sendFile(path.join(__dirname, 'views', '404.html'));
 })
 
+app.get('/hello',(req, res) => {
+  res.send('welcome to our page');
+})
+
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server running at http://localhost:${port}`);
 });
 
 module.exports = app;

@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product List</title>
-    <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/products.css"> <!-- Correct path -->
 </head>
 <body>
     <header class="bg-dark text-white text-center py-3">
@@ -15,9 +13,7 @@
     
     <main class="container my-5">
         <section id="product-list">
-            <div id="products" class="row">
-                <!-- Products will be dynamically inserted here -->
-            </div>
+            <div id="products" class="row"></div>
             <div id="error-message" class="alert alert-danger d-none" role="alert">
                 Error fetching products. Please try again later.
             </div>
@@ -29,10 +25,9 @@
         </section>
     </main>
 
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="/products.js"></script> <!-- Correct path -->
+    <script src="/products.js"></script>
 </body>
 </html>
