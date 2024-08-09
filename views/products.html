@@ -25,6 +25,43 @@
         </section>
     </main>
 
+    <!-- Update Product Modal -->
+    <div class="modal fade" id="updateProductModal" tabindex="-1" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProductModalLabel">Update Product</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateProductForm">
+                        <div class="form-group">
+                            <label for="updateProductName">Product Name</label>
+                            <input type="text" class="form-control" id="updateProductName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateProductPrice">Price</label>
+                            <input type="number" class="form-control" id="updateProductPrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateProductDescription">Description</label>
+                            <textarea class="form-control" id="updateProductDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateProductImage">Product Image</label>
+                            <input type="file" class="form-control-file" id="updateProductImage">
+                        </div>
+                        <input type="hidden" id="updateProductId">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveProductChanges">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
