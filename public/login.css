@@ -1,0 +1,83 @@
+body {
+    background-color: #f7f7f7;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .card {
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  .form-group {
+    position: relative;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    padding-right: 40px; /* Adjust padding to accommodate the icon */
+  }
+  
+  .field-icon {
+    font-size: 1.2rem;
+    color: #888;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%); /* Centers the icon vertically */
+  }
+  
+  /* Adjusting the icon size and position for smaller screens */
+  @media (max-width: 768px) {
+    .field-icon {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .field-icon {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-link {
+    font-size: 0.9rem;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .btn-link:hover {
+    color: #0056b3;
+  }
+  
+  .animate__animated.animate__fadeIn {
+    animation-duration: 1.5s;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
