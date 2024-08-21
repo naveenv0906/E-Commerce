@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm" action="/customer-login" method="POST">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div id="errorMessage" style="color: red;"></div>
+
+    <!-- Reset Password Link -->
+    <p><a href="/customer-reset">Forgot your password?</a></p>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent the form from submitting immediately
+
+            const formData = new FormData(form);
+            const data = new URLSearchParams();
+
+            for (const pair of formData) {
+                data.append(pair[0], pair[1]);
+            }
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+
+            const result = await response.text();
+
+            if (response.status !== 200) {
+                // Display the error message if login fails
+                errorMessage.textContent = result; // Use the error response message
+            } else {
+                // Redirect or update the page on successful login
+                window.location.href = '/hello';
+            }
+        });
+    </script>
+</body>
+</html>
