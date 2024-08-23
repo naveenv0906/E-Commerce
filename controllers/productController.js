@@ -115,3 +115,8 @@ exports.deleteProduct = async (req, res) => {
     res.status(400).send('Error deleting product');
   }
 };
+
+
+
+
+

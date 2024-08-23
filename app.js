@@ -9,6 +9,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/product');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,19 +31,17 @@ app.use(session({
   }
 }));
 
-app.use('/auth', authRoutes);
-
 // Authentication middleware
 const isAuthenticated = (req, res, next) => {
-  // console.log('Session User ID:', req.session.userId);
   if (req.session.userId) {
     return next();
   }
   res.redirect('/login');
 };
 
-
+app.use('/auth', authRoutes);
 app.use('/api/products', isAuthenticated, productRoutes);
+app.use('/api', isAuthenticated, dashboardRoutes);
 
 // Serve HTML pages with authentication check
 app.get('/login', (req, res) => {
@@ -53,7 +52,6 @@ app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'register.html'));
 });
 
-// Protect these routes with authentication middleware
 app.get('/add-products', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
@@ -62,13 +60,19 @@ app.get('/products', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'products.html'));
 });
 
+app.get('/dashboard', isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'dashboard.html'));
+});
+
 app.get('/*',(req, res) => {
   res.sendFile(path.join(__dirname, 'views', '404.html'));
-})
+});
 
-app.get('/hello',(req, res) => {
-  res.send('welcome to our page');
-})
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Server error:', err);
+  res.status(500).send('Internal Server Error');
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
